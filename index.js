@@ -4,13 +4,13 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const { Routes } = require("./routes"); // Assuming you will define your routes in this file
 const app = express();
-const PORT = process.env.PORT || 5000;
-const NODE_ENV = process.env.ENVIRONMENT || "";
+mongoose.connect('mongodb+srv://demofor26:6QYaf1NiE1mq79kK@project-practice.rk6y4.mongodb.net/socialMediaTask', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
 // DB Connection
-const dbConfig = new DBConfig();
-dbConfig.connect(); // Assuming this handles your DB connection
 app.use(cors());
 app.all("/*", (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -63,8 +63,6 @@ app.get("/submissions", async (req, res) => {
         res.status(500).send("Error fetching data: " + error.message);
     }
 });
-// Routes setup
-const routes = new Routes(NODE_ENV);
-app.use("/api/v1", routes.path());
+
 // Export the app for Vercel deployment
 module.exports = app;
