@@ -1,12 +1,9 @@
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const multer = require("multer");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const { DBConfig } = require("./config/dbconfig"); // Assuming you have a DBConfig class like in the template
+const express = require('express');
+const multer = require('multer');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
 const { Routes } = require("./routes"); // Assuming you will define your routes in this file
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,7 +11,6 @@ const NODE_ENV = process.env.ENVIRONMENT || "";
 // DB Connection
 const dbConfig = new DBConfig();
 dbConfig.connect(); // Assuming this handles your DB connection
-app.use(helmet()); // Helmet helps secure Express apps by setting HTTP response headers.
 app.use(cors());
 app.all("/*", (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -31,10 +27,7 @@ app.all("/*", (req, res, next) => {
         next();
     }
 });
-app.use(morgan("dev")); // Log every request to the console
-app.use(bodyParser.json({ limit: "50mb" }));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 // Setup the multer storage configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, "uploads/"),
