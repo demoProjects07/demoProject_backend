@@ -9,7 +9,7 @@ const path = require("path");
 const app = express();
 
 // Ensure /tmp/uploads directory exists for Vercel
-const uploadsDir = "tmp/uploads";
+const uploadsDir = "/tmp/uploads";
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
     console.log("Temporary uploads directory created.");
@@ -45,7 +45,7 @@ app.use(express.json());
 
 // Setup multer for file uploads
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "tmp/uploads"),
+    destination: (req, file, cb) => cb(null, "/tmp/uploads"),
     filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
