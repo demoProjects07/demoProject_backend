@@ -9,7 +9,7 @@ const path = require("path");
 const app = express();
 
 // Ensure /tmp/uploads directory exists for Vercel
-const uploadsDir = "/tmp/uploads";
+const uploadsDir = "tmp/uploads";
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
     console.log("Temporary uploads directory created.");
