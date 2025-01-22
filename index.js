@@ -3,21 +3,31 @@ const express = require('express');
 const multer = require('multer');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
+
+// MongoDB connection
 mongoose.connect('mongodb+srv://demofor26:6QYaf1NiE1mq79kK@project-practice.rk6y4.mongodb.net/socialMediaTask', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
+});
 
-// DB Connection
+// Middleware
 app.use(cors());
 app.all("/*", (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Request-Headers", "*");
     res.header(
         "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Authorization"
+        "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers, Authorization"
     );
     res.header("Access-Control-Allow-Methods", "GET, POST");
     if (req.method === "OPTIONS") {
@@ -28,21 +38,26 @@ app.all("/*", (req, res, next) => {
     }
 });
 app.use(express.json());
-// Setup the multer storage configuration
+
+// Setup multer for file uploads
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "/uploads"),
+    destination: (req, file, cb) => cb(null, "uploads/"),
     filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
+
 // Serve static files from the uploads folder
 app.use("/uploads", express.static("uploads"));
+
+// Mongoose schema and model
 const userSchema = new mongoose.Schema({
     name: String,
     socialMediaHandle: String,
     images: [String],
 });
 const User = mongoose.model("User", userSchema);
-// Submit route
+
+// Routes
 app.post("/submit", upload.array("images"), async (req, res) => {
     try {
         const { name, socialMediaHandle } = req.body;
@@ -54,7 +69,7 @@ app.post("/submit", upload.array("images"), async (req, res) => {
         res.status(500).send("Error saving data: " + error.message);
     }
 });
-// Submissions route
+
 app.get("/submissions", async (req, res) => {
     try {
         const users = await User.find();
