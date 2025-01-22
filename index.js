@@ -45,13 +45,13 @@ app.use(express.json());
 
 // Setup multer for file uploads
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "/tmp/uploads"),
+    destination: (req, file, cb) => cb(null, "tmp/uploads"),
     filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
 
 // Serve static files from the /tmp/uploads folder (optional)
-app.use("/uploads", express.static("/tmp/uploads"));
+// app.use("/uploads", express.static("tmp/uploads"));
 
 // Mongoose schema and model
 const userSchema = new mongoose.Schema({
