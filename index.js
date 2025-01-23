@@ -16,13 +16,16 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // MongoDB connection
+mongoose.set('debug', true);
 mongoose.connect(
     "mongodb+srv://demofor26:6QYaf1NiE1mq79kK@project-practice.rk6y4.mongodb.net/socialMediaTask",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 30000, // 30 seconds
     }
 );
+
 
 // Middleware
 app.use(cors());
