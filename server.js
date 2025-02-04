@@ -1,4 +1,4 @@
-const express = require('express');
+project-practice.rk6y4const express = require('express');
 const multer = require('multer');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://demofor26:6QYaf1NiE1mq79kK@project-practice.rk6y4.mongodb.net/socialMediaTask', {
+mongoose.connect('mongodb+srv://username:password@domain_name/DB_name', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
