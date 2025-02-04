@@ -17,7 +17,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // MongoDB connection
 mongoose.connect(
-    "mongodb+srv://demofor26:6QYaf1NiE1mq79kK@project-practice.rk6y4.mongodb.net/socialMediaTask",
+    "mongodb+srv://username:password@domain_name/DB_name",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
